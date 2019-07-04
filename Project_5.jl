@@ -193,7 +193,9 @@ end
 
 function plt_dat(dat)
     wv, x, t, nstep, tstep = dat
-    ttl = string("Advection for dt = ", string(tstep), " s, N = ", string(nstep))
+    ttl = string(
+        "Advection for dt = ", string(tstep), " s, N = ", string(nstep)
+    )
     p1=surface(x, t, wv, title=ttl,
             xlabel=:"x", ylabel=:"time", zlabel=:"a(x,t)", 
             color=:Spectral_r, colorbar=false,
