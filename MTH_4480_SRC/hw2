@@ -1,0 +1,48 @@
+function bisection(; f, intvl, tol=1e-2)
+    a, b = intvl
+    # vals = []
+    
+    if f(a)*f(b) >= 0
+        return "initial inputs are not opposite sign"
+    end
+
+    n = 0
+    x = (a+b)*0.5
+    fx = f(x)
+    # push!(vals, fx)
+
+    while abs(fx) > tol
+        if sign(f(a)) == sign(fx)
+            a = x
+        else
+            b = x
+        end
+
+        n += 1
+        x = (a+b)*0.5
+        fx = f(x)
+        # push!(vals, x)
+    end
+    
+    println(
+        "x: ", x,
+        "\nf(x): ", f(x),
+        "\nnumber of iterations: ", n,
+        "\n"
+    )
+end
+
+
+function fixed_point(; f, x0, tol=1e-2)
+end
+
+
+i1 = [-2, -1]
+i2 = [-1, 0]
+i3 = [0, 2]
+i4 = [2, 3]
+
+bisection(f= x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=i1)
+bisection(f= x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=i2)
+bisection(f= x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=i3)
+bisection(f= x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=i4)
