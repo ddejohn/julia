@@ -23,7 +23,14 @@ function bisection(; f, intvl, tol=1e-2)
     println(
         "x: $(x)\nf(x) = $(f(x))\nnumber of iterations: $(n)\n",
     )
-end
+end;
+
+
+println("Bisection:\n")
+bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(-2, -1))
+bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(-1, 0))
+bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(0, 2))
+bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(2, 3))
 
 
 function fixed_point(; f, g, p0, max_iter=100, tol=1e-2)
@@ -34,29 +41,25 @@ function fixed_point(; f, g, p0, max_iter=100, tol=1e-2)
         p = g(p0)
         if abs(p - p0) < tol
             break
-        end
+        end    
         p0 = p
         n += 1
-    end
+    end    
 
     if n == max_iter
         println("failed after $(n) iterations\n")
     else
         println(
             "p: $(p)\nf(p) = $(f(p))\nnumber of iterations: $(n)\n",
-        )
-    end
-end;
+        )    
+    end    
+end;    
 
-
-println("Bisection:\n")
-bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(-2, -1))
-bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(-1, 0))
-bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(0, 2))
-bisection(f=x-> x^4 - 2x^3 - 4x^2 + 4x + 4, intvl=(2, 3))
 
 println("Fixed point:\n")
 fixed_point(f=x-> x^3, g=x-> (18x + 19/x^2)/19, p0=1)
 fixed_point(f=x-> x^3, g=x-> x - (x^3 - 19)/(3x^2), p0=1)
 fixed_point(f=x-> x^3, g=x-> x - (x^4 - 19x)/(x^2 - 19), p0=1)
 fixed_point(f=x-> x^3, g=x-> sqrt(19/x), p0=1)
+
+
