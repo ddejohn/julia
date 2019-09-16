@@ -14,19 +14,23 @@ function ndd(; data)
         end
     end
 
-    return m[1,1] + sum(m[i,i]*(x -> x-xx[j] for j in 1:n-1) for i in 2:n)
+    # generate Newton polynomials
+    function poly(i, x)
+        p = 1
+        for j in 1:i-1
+            p *= (x-xx[j]) # (x - xj) for j from 1 to i-1
+        end
+        return p
+    end
+
+    # return a lambda in x: 
+    # sum the diagonal entries as coefficients
+    # on the generated Newton polynomial
+    return x-> sum(m[i,i]*poly(i, x) for i in 1:n)
 end
 
 
-
-# data = [(1,3), (2, 3), (1,1), (0,0), (5,2)]
-
-# xx,yy = points(data)
-
-# print(xx)
-# print(yy)
-
-data = [(-0.1, 1.81818), (0., 2.), (0.2, 2.5), (0.3, 2.85714)]
+data = [(-0.1, 1.81818), (0., 2.), (0.2, 2.5), (0.3, 2.85714), (0.35, 3.07692)]
 
 f = ndd(data=data)
-print(f(2))
+println(f(0.4))
