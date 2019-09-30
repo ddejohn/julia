@@ -1,6 +1,5 @@
 using LinearAlgebra
-using Plots
-gr()
+# using Plots
 
 
 # Newton's divided difference polynomial
@@ -31,7 +30,7 @@ end
 function poly(i, x, xx)
     p = 1
     for j in 1:i-1
-        p *= (x-xx[j]) # (x - xj) for j from 1 to i-1
+        p *= (x-xx[j])
     end
     return p
 end
@@ -67,9 +66,9 @@ function ndd_print(m::Matrix)
         push!(ndd_repr, "$(diag[i])")
         for j in 1:i-1
             if xx[j] < 0
-                ndd_repr[i] *=  "*(x+$(-xx[j]))"
+                ndd_repr[i] *= "*(x+$(-xx[j]))"
             else
-                ndd_repr[i] *=  "*(x-$(xx[j]))"
+                ndd_repr[i] *= "*(x-$(xx[j]))"
             end
         end
     end
@@ -107,84 +106,98 @@ function mono(; data)
 end
 
 
-# plot any number of interpolated functions against f(x) 
-function make_plot(; f, funcs, names, x_range::StepRangeLen)
-    # x-range to plot
-    xx = [x for x in x_range]
+# # plot any number of interpolated functions against f(x) 
+# function make_plot(; f, funcs, names, x_range::StepRangeLen)
+#     gr()
     
-    p = plot(
-        xx, f.(xx), label="f(x) = 2/(1-x)",
-        lw=3, xlabel="x", ylabel="y",
-        size=(900,900),
-        legend=:bottomright,
-        title="f(x) vs " * join(names, ", ")
-    )
+#     # x-range to plot
+#     xx = [x for x in x_range]
     
-    for i in 1:length(funcs)
-        # unpack functions into degree 3, 4
-        f3, f4 = funcs[i]
-        name = names[i]
-        lbl = "$(name): degree "
-        plot!(p, xx, f3.(xx), lw=3, label=lbl*"3")
-        plot!(p, xx, f4.(xx), lw=3, label=lbl*"4")
-    end
+#     p = plot(
+#         xx, f.(xx), label="f(x) = 2/(1-x)",
+#         lw=3, xlabel="x", ylabel="y",
+#         size=(900,900),
+#         legend=:bottomright,
+#         title="f(x) vs " * join(names, ", ")
+#     )
     
-    scatter!(p, [-0.1, 0, 0.2, 0.3, 0.35], [1.81818, 2., 2.5, 2.85714, 3.07692],
-        ms=6, mc="lightgrey", label="given data points")
-    p
-end
+#     for i in 1:length(funcs)
+#         # unpack functions into degree 3, 4
+#         f3, f4 = funcs[i]
+#         name = names[i]
+#         lbl = "$(name): degree "
+#         plot!(p, xx, f3.(xx), lw=3, label=lbl*"3")
+#         plot!(p, xx, f4.(xx), lw=3, label=lbl*"4")
+#     end
+    
+#     scatter!(p, [-0.1, 0, 0.2, 0.3, 0.35], [1.81818, 2., 2.5, 2.85714, 3.07692],
+#         ms=6, mc="lightgrey", label="given data points")
+#     p
+# end
 
 
-# error plotter
-function error_plot(; f, funcs, names, x_range::StepRangeLen)
-    # x-range to plot
-    xx = [x for x in x_range]
+# # error plotter
+# function error_plot(; f, funcs, names, x_range::StepRangeLen)
+#     gr()
     
-    p = plot(
-        [], [], label="",
-        lw=3, xlabel="x", ylabel="absolute error",
-        size=(900,900),
-        legend=:topleft,
-        title="Absolute error f(x) vs " * join(names, ", ")
-    )
+#     # x-range to plot
+#     xx = [x for x in x_range]
     
-    for i in 1:length(funcs)
-        # unpack functions into degree 3, 4
-        f3, f4 = funcs[i]
-        name = names[i]
-        lbl = "$(name): degree "
-        plot!(p, xx, abs.(f.(xx) - f3.(xx)), lw=3, label=lbl*"3")
-        plot!(p, xx, abs.(f.(xx) - f4.(xx)), lw=3, label=lbl*"4")
-    end
+#     p = plot(
+#         [], [], label="",
+#         lw=3, xlabel="x", ylabel="absolute error",
+#         size=(900,900),
+#         legend=:topleft,
+#         title="Absolute error f(x) vs " * join(names, ", ")
+#     )
     
-    scatter!(p, [-0.1, 0, 0.2, 0.3, 0.35], [0., 0., 0., 0., 0.],
-        ms=6, mc="lightgrey", label="given data points")
-    p
-end
+#     for i in 1:length(funcs)
+#         # unpack functions into degree 3, 4
+#         f3, f4 = funcs[i]
+#         name = names[i]
+#         lbl = "$(name): degree "
+#         plot!(p, xx, abs.(f.(xx) - f3.(xx)), lw=3, label=lbl*"3")
+#         plot!(p, xx, abs.(f.(xx) - f4.(xx)), lw=3, label=lbl*"4")
+#     end
+    
+#     scatter!(p, [-0.1, 0, 0.2, 0.3, 0.35], [0., 0., 0., 0., 0.],
+#         ms=6, mc="lightgrey", label="given data points")
+#     p
+# end
 
 
-# subplots for degree 3 and degree 4 polynomials
-function multi_plot(; f, funcs, names, x_range::StepRangeLen)
-    # x-range to plot
-    xx = [x for x in x_range]
+# # subplots for degree 3 and degree 4 polynomials
+# function multi_plot(; f, funcs, names, x_range::StepRangeLen)
+#     gr()
     
-    p3=plot([], [], label="", title="degree 3 polynomial", xlabel="x", ylabel="y")
-    p4=plot([], [], label="", title="degree 4 polynomial", xlabel="x", ylabel="y")
+#     # x-range to plot
+#     xx = [x for x in x_range]
     
-    for i in 1:length(funcs)
-        # unpack functions into degree 3, 4
-        f3, f4 = funcs[i]
-        name = names[i]
-        plot!(p3, xx, f3.(xx), lw=3, label=name)
-        plot!(p4, xx, f4.(xx), lw=3, label=name)
-    end
+#     p3=plot([], [], label="", title="degree 3 polynomial", xlabel="x", ylabel="y")
+#     p4=plot([], [], label="", title="degree 4 polynomial", xlabel="x", ylabel="y")
+    
+#     for i in 1:length(funcs)
+#         # unpack functions into degree 3, 4
+#         f3, f4 = funcs[i]
+#         name = names[i]
+#         plot!(p3, xx, f3.(xx), lw=3, label=name)
+#         plot!(p4, xx, f4.(xx), lw=3, label=name)
+#     end
 
-    scatter!(p3, [-0.1, 0, 0.2, 0.3, 0.35], [1.81818, 2., 2.5, 2.85714, 3.07692],
-        ms=6, mc="lightgrey", label="given data points")
+#     scatter!(p3, [-0.1, 0, 0.2, 0.3, 0.35], [1.81818, 2., 2.5, 2.85714, 3.07692],
+#         ms=6, mc="lightgrey", label="given data points")
 
-    scatter!(p4, [-0.1, 0, 0.2, 0.3, 0.35], [1.81818, 2., 2.5, 2.85714, 3.07692],
-        ms=6, mc="lightgrey", label="given data points")
+#     scatter!(p4, [-0.1, 0, 0.2, 0.3, 0.35], [1.81818, 2., 2.5, 2.85714, 3.07692],
+#         ms=6, mc="lightgrey", label="given data points")
 
-    p=plot(p3, p4, layout=(1,2), size=(950,550), legend=:topleft)
-    p
-end;
+#     p=plot(p3, p4, layout=(1,2), size=(950,550), legend=:topleft)
+#     p
+# end;
+
+
+
+data = [(-0.1, 1.81818), (0., 2.), (0.2, 2.5), (0.3, 2.85714)]
+
+f, m = ndd(data=data)
+
+println(f(0.35))

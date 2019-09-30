@@ -55,15 +55,21 @@ function test_det(a::Array{Float64,2})
     res
 end
 
-a = ref(100*rand(5, 5))
-# a = rref([i*j for i in 1.:5., j in 1:5])
+# a = ref(100*rand(5, 5))
+# # a = rref([i*j for i in 1.:5., j in 1:5])
 
-for i in 1:size(a,1)
-    println(a[i,:])
-end
+# for i in 1:size(a,1)
+#     println(a[i,:])
+# end
 
-t1 = @btime det(a)
-t2 = @btime test_det(a)
+# t1 = @btime det(a)
+# t2 = @btime test_det(a)
 
-println("LA: $t1 s")
-println("My: $t2 s")
+# println("LA: $t1 s")
+# println("My: $t2 s")
+
+
+a = [0 0.5 0 0 0; 0.5 0 0.5 0 0; 0 0.5 0 0.5 0;
+0 0 0.5 0 0.5; 0 0 0 0.5 0]
+
+print(ref(a))
