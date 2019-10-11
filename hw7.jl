@@ -1,4 +1,5 @@
-using Printf
+using Plots
+gr()
 
 
 # integration helper functions
@@ -20,18 +21,30 @@ function integrate(; f, mthd, intvl::Tuple, n::Int)
 end
 
 
-f(x) = 4/(1+x^2)
-# f(x) = sqrt(x)
-
-
-# for n in [2,4,8,16,32]
-#     println(integrate(f=f, intvl=(0,1), mthd=mid_point, n=n))
-# end
-
-
-println("n = 32\n")
-for mthd in [mid_point, trap, simpson]
-    area = integrate(f=f, intvl=(0,1), mthd=mthd, n=32)
-    println("$(string(mthd)): $(round(area, digits=6))")
-    @printf "error: %e\n\n" abs(pi - area)
-end
+# plot errors for all three methods
+function error_plot(; f, exact, intvl)
+    mdp_err = []
+    tpz_err = []
+    smp_err = []
+    
+    nvals = [2, 4, 6, 8, 16, 32, 64]
+    
+    p = plot([], [], label="", title="absolute error vs # subintervals", size=(900,900),
+        xlabel="# subintervals", ylabel="absolute error", xticks=nvals, yaxis=:log)
+    
+    for n in nvals
+        mdp = abs(exact - integrate(f=f, intvl=intvl, mthd=mid_point, n=n))
+        tpz = abs(exact - integrate(f=f, intvl=intvl, mthd=trap, n=n))
+        smp = abs(exact - integrate(f=f, intvl=intvl, mthd=simpson, n=n))
+        
+        push!(mdp_err, mdp)
+        push!(tpz_err, tpz)
+        push!(smp_err, smp)
+    end
+    
+    plot!(p, nvals, mdp_err, lc=:teal, lw=4, label="midpoint")
+    plot!(p, nvals, tpz_err, lc=:gold, lw=4, label="trapezoid")
+    plot!(p, nvals, smp_err, lc=:pink, lw=4, label="simpson's")
+    
+    p
+end;
