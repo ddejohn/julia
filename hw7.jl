@@ -8,7 +8,7 @@ trap(; f, a, b) = (b-a)*(f(a)+f(b))/2
 simpson(; f, a, b) = (b-a)*(f(a)+4*f((a+b)/2)+f(b))/6
 
 
-# Abscissas for gaussian_quadrature
+# Abscissas for guass
 legendre_roots = [
     [sqrt(3)/3, -sqrt(3)/3],
     [0, sqrt(15)/5, -sqrt(15)/5],
@@ -21,6 +21,7 @@ legendre_roots = [
 ]
 
 
+# self-explanatory
 legendre_weights = [
     [1, 1],
     [8/9, 5/9, 5/9],
@@ -48,11 +49,15 @@ function integrate(; f, mthd, intvl::Tuple, n::Int, deg=3)
 end
 
 
+# integrate a function f on the interval [a, b]
+# using Gaussian quadrature with n points
 function gauss(; f, a, b, n=3)
+    # transform the interval [a,b] to [-1, 1]
     x(t) = 0.5*(t*(b-a)+a+b)
     xx = x.(legendre_roots[n-1])
     ww = legendre_weights[n-1]
 
+    # evaluate the sum of the weights and the transformed function f
     return 0.5*(b-a)*sum(wi*f(xi) for (wi, xi) in zip(ww, xx))
 end
 
