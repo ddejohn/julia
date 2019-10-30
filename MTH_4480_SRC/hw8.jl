@@ -1,5 +1,4 @@
 using LinearAlgebra
-# using BenchmarkTools
 
 
 # decompose A into LU, with partial pivoting
@@ -88,7 +87,8 @@ function backward_sub(A, b)
     # initializes an empty solution vector
     xx = zeros(num_rows)
     for i in num_rows:-1:1
-        # solves for each variable using the previously solved variables on which it depends
+        # solves for each variable using the
+        # previously solved variables on which it depends
         xi = mapreduce(j -> A[i,j]*xx[j], +, i+1:num_rows, init=0)
         xx[i] = (b[i]-xi)/A[i,i]
     end
@@ -103,7 +103,8 @@ function forward_sub(A, b)
     # initializes an empty solution vector
     xx = zeros(num_rows)
     for i in 1:num_rows
-        # solves for each variable using the previously solved variables on which it depends
+        # solves for each variable using the
+        # previously solved variables on which it depends
         xi = mapreduce(j -> A[i,j]*xx[j], +, 1:i-1, init=0)
         xx[i] = (b[i]-xi)/A[i,i]
     end
@@ -126,7 +127,8 @@ function gauss_solve(A, b)
 end
 
 
-# compare gaussian elimination vs LU decomposition vs Julia's built-in matrix methods
+# compare gaussian elimination vs LU decomposition
+# vs Julia's built-in matrix methods
 function compare(A, b)
     @time LU = LU_solve(A, b)
     @time gauss = gauss_solve(A, b)
