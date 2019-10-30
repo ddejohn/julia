@@ -111,9 +111,9 @@ function cromer(X::State, τ::Float64)
     return State(r, v)
 end
 
-function rk(X::State, τ::Float64)
-    return X + τ * f(X + τ/2 * f(X))
-end
+# function rk(X::State, τ::Float64)
+#     return X + τ * f(X + τ/2 * f(X))
+# end
 
 function rk4(X::State, τ::Float64, cf=gf)
     k1 = cf(X)

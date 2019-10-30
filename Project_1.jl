@@ -3,7 +3,7 @@ using Random
 gr()
 
 # MCI iteration values, in decadal-magnitudinal steps.
-# nn = [k*10^n for n in 3:9 for k in 1:9];
+nn = [k*10^n for n in 3:9 for k in 1:9];
 
 function mc_unit_circle(n)
     k = sum(1 for _ in 1:n if rand()^2 + rand()^2 < 1)

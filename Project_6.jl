@@ -392,23 +392,23 @@ function vol_plot(dat; lvl)
     srf_plot((zz,xx,yy), ttl=ttl, zslc=", z = $(lvl)")
 end
 
-function vol_gif(dat)
-    vol, xx, yy, zslices, mthd, imax = dat
-    gp = size(vol,3)
+# function vol_gif(dat)
+#     vol, xx, yy, zslices, mthd, imax = dat
+#     gp = size(vol,3)
 
-    anim = @animate for i in 2:(size(vol,1)-1)
-        zz = vol[:,:,i]
-        zi = "$(round(zslices[i], digits=2))"
-        if length(zi) < 4
-            zi = rpad(zi, 4, "0")
-        end
+#     anim = @animate for i in 2:(size(vol,1)-1)
+#         zz = vol[:,:,i]
+#         zi = "$(round(zslices[i], digits=2))"
+#         if length(zi) < 4
+#             zi = rpad(zi, 4, "0")
+#         end
         
-        ttl = "Potential in a cube at z = $(zi); $(mthd) method, $(imax+1) iterations"
-        srf_plot((zz,xx,yy), ttl=ttl, zslc=", z = $zi")
-    end every 1
+#         ttl = "Potential in a cube at z = $(zi); $(mthd) method, $(imax+1) iterations"
+#         srf_plot((zz,xx,yy), ttl=ttl, zslc=", z = $zi")
+#     end every 1
     
-    gif(anim, string("laplace_", mthd, ".gif"))
-end
+#     gif(anim, string("laplace_", mthd, ".gif"))
+# end
 
 # vol_gif(laplace(mthd=jacobi, gp=100))
 # vol_gif(laplace(mthd=gauss, gp=100))

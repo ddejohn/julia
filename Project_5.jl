@@ -205,25 +205,25 @@ function plt_dat(dat)
     plot(p1, p2, layout=2, size=(950,450))
 end
 
-function dir_gif(dat)
-    wv, x, t, nstep, tstep = dat
+# function dir_gif(dat)
+#     wv, x, t, nstep, tstep = dat
     
-    max_amp = 1.25
-    min_amp = -1.25
-    max_x = maximum(x)
-    min_x = minimum(x)
+#     max_amp = 1.25
+#     min_amp = -1.25
+#     max_x = maximum(x)
+#     min_x = minimum(x)
 
-    anim = @animate for i=1:2:Int(round(size(wv,1)))
-        dt = "$(round(t[i], digits=4))"
-        if length(dt) < 6
-            dt = rpad(dt, 6, "0")
-        end
-        ttl = string("Sinusoidal dirichlet BC at time t = ", dt, " s")
-        plot(size=(900,500), xlabel=:"x", ylabel=:"a(x)", xlims=(min_x, max_x), ylims=(min_amp, max_amp), title=ttl)
-        plot!(x, wv[i, :], lw=4, label=:"")
-    end every 5
-    gif(anim, "advect.gif")
-end
+#     anim = @animate for i=1:2:Int(round(size(wv,1)))
+#         dt = "$(round(t[i], digits=4))"
+#         if length(dt) < 6
+#             dt = rpad(dt, 6, "0")
+#         end
+#         ttl = string("Sinusoidal dirichlet BC at time t = ", dt, " s")
+#         plot(size=(900,500), xlabel=:"x", ylabel=:"a(x)", xlims=(min_x, max_x), ylims=(min_amp, max_amp), title=ttl)
+#         plot!(x, wv[i, :], lw=4, label=:"")
+#     end every 5
+#     gif(anim, "advect.gif")
+# end
 
 # Plots for exercise 7.2
 plt_dat(advect(0.015, 50, mthd=ftcs))
