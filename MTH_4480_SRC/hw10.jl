@@ -1,40 +1,34 @@
 using LinearAlgebra
+using Plots
+gr()
 
 
-function lam_iter(x)
-    xn = A*x
-    lam = maximum(xn)
-    x = xn ./ lam
-    return x, lam
-end
-
-
-function power_method(A, x, tol=1.0e-8)
-    x0, mu = pow_help(A, x)
+function power_method(A, x, tol=1.0e-8)    
     n = 0
+    mu = undef
+    err_plot = []
 
-    while norm(x0-x, Inf) > tol
+    while true
         x0 = x
-        x, mu = pow_help(A, x)
+        normalize!(x)
+        xn = A*x
+        x = normalize(xn)
+        mu = x'*xn
+
         n += 1
+        err = norm(x0-x, Inf)
+        push!(err_plot, err)
+        
+        if err < tol
+            break
+        end
     end
 
     println("eigenvector: $(x)\neigenvalue: $(mu)\niterations: $(n)")
-end
-
-
-function pow_help(A, x)
-    x = x ./ norm(x, 2)
-    xn = A*x
-    x = xn ./ norm(xn, 2)
-    return x, x'*xn
-end
-
-
-A = [4. 2. 1.; 0. 3. 2.; 1. 1. 4.]
-x = [1., 2., 1.]
-
-# A = [1. -1. 0.; -2. 4. -2.; 0. -1. 2.]
-# x = [-1., 2., 1.]
-
-power_method(A, x)
+    
+    plot([x for x in 1:n], err_plot,
+        yaxis=:log, lw=4, lc=:teal, label="",
+        ylabel="error", xlabel="iterations",
+        size=(900,900), title="Maximum eigenvalue error vs number of iterations")
+    scatter!([x for x in 1:n], err_plot, mc=:gold, label="")
+end;
