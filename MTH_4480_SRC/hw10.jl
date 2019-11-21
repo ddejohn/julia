@@ -14,7 +14,7 @@ function power_method(A, x, tol=1.0e-8)
         x0 = x
         xn = A*normalize(x)
         x = normalize(xn)
-        mu = x'*xn
+        mu = x'xn
 
         n += 1
         err = norm(x0-x, Inf)
