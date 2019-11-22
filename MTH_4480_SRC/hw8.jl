@@ -1,13 +1,9 @@
 using LinearAlgebra
 
 
-
 # decompose A into LU, with partial pivoting
 function LU_decomp(A::Array{Float64,2})
     n = size(A,1)
-
-    # identity matrix
-    id = [1. for _ in 1:n]
 
     # list for storing transformation matrices
     tx_mats = []
@@ -17,7 +13,7 @@ function LU_decomp(A::Array{Float64,2})
 
     for i in 1:n
         # initialize the transformation matrix
-        tx = diagm(id)
+        tx = diagm(ones(n))
         
         # for each row below a pivot, record the "pivoting scalar" and place
         # it in the corresponding position in the transformation matrix

@@ -1,8 +1,11 @@
+using SpecialMatrices
+
+
 # polynomial least squares
 function lsfit(; data, n)
     xx, yy = map(y -> map(x -> x[y], data), 1:2)
-    
-    A = [x^i for x in xx, i in 0:n]
+
+    A = x.^collect(0:n)'
     coefs = (A'A)\(A'yy)
 
     return x -> sum(c*x^(i-1) for (i,c) in enumerate(coefs))
