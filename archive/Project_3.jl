@@ -99,21 +99,21 @@ end
 #——————————————————————————————————————————————————————————————————————————————————————————————————#
 # Integrators
 
-function euler(X::State, τ::Float64)
-    v = X.v -(τ*μ/nrm(X.r)^3) * X.r
-    r = X.r + τ*X.v
-    return State(r, v)
-end
-
-function cromer(X::State, τ::Float64)
-    v = X.v -(τ*μ/nrm(X.r)^3) * X.r
-    r = X.r + τ*v
-    return State(r, v)
-end
-
-# function rk(X::State, τ::Float64)
-#     return X + τ * f(X + τ/2 * f(X))
+# function euler(X::State, τ::Float64)
+#     v = X.v -(τ*μ/nrm(X.r)^3) * X.r
+#     r = X.r + τ*X.v
+#     return State(r, v)
 # end
+
+# function cromer(X::State, τ::Float64)
+#     v = X.v -(τ*μ/nrm(X.r)^3) * X.r
+#     r = X.r + τ*v
+#     return State(r, v)
+# end
+
+function rk(X::State, τ::Float64)
+    return X + τ * f(X + τ/2 * f(X))
+end
 
 function rk4(X::State, τ::Float64, cf=gf)
     k1 = cf(X)

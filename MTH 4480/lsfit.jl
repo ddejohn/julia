@@ -1,11 +1,8 @@
-using SpecialMatrices
-
-
 # polynomial least squares
 function lsfit(; data, n)
     xx, yy = map(y -> map(x -> x[y], data), 1:2)
 
-    A = x.^collect(0:n)'
+    A = xx.^collect(0:n)'
     coefs = (A'A)\(A'yy)
 
     return x -> sum(c*x^(i-1) for (i,c) in enumerate(coefs))
@@ -29,4 +26,12 @@ function oldfit(; data, n)
     coefs = A\b
 
     return x -> sum(coefs[i]*x^(i-1) for i in 1:n)
+end
+
+
+# Ordinary Least Squares
+function ols(X::AbstractMatrix, y::AbstractVector)
+    X = hcat(ones(size(X,1)), X)
+    w = (X'X)\(X'y)
+    return x -> hcat(ones(size(x,1)), x)*w
 end
